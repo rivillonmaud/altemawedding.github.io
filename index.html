@@ -25,7 +25,7 @@
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
-		"name": "",
+		"name": "Site2",
 		"logo": "images/logoAWblack.png",
 		"sameAs": [
 				"https://www.youtube.com/@AltémaStudio",
@@ -34,8 +34,213 @@
 }</script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Accueil">
+    <meta property="og:description" content="">
     <meta property="og:type" content="website">
-  <meta name="referrer" content="origin"><meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <meta name="referrer" content="origin"><script>
+    window.recaptchaRenderedV2 = false;
+    window.recaptchaFallback = false;
+    window.recaptchaSiteKeyV2 = '6LebRIorAAAAAEBCYCVXLpZKNt1KxwfbefWqDvFL';
+
+    function gdprConfirmed() {
+        return true;
+    }
+
+    function dynamicLoadScript() {
+        var script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=6LcrCAosAAAAAMvU0hgE1fH9VxyxUE552drDvg_2';
+        script.async = true;
+        script.onload = function () {
+            var event = new CustomEvent("recaptchaLoaded");
+            document.dispatchEvent(event);
+        };
+        document.body.appendChild(script);
+    }
+
+    function showRecaptchaError(error) {
+        error = error || '';
+        var formError = document.querySelector('.u-form-send-error');
+
+        if (formError) {
+            formError.innerText = 'Erreur du propriétaire du site: ' + error.replace(/:[\s\S]*/, '');
+            formError.style.display = 'block';
+        }
+
+        console.error('Error in grecaptcha: ', error);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmButtons = document.querySelectorAll('.u-cookies-consent .u-button-confirm');
+        confirmButtons.forEach(function (button) {
+            button.onclick = dynamicLoadScript;
+        });
+    });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            if (!gdprConfirmed()) {
+                return;
+            }
+            dynamicLoadScript();
+        });
+    </script>
+
+    <script>
+        document.addEventListener("recaptchaLoaded", function() {
+            if (!gdprConfirmed()) {
+                return;
+            }
+
+            (function (grecaptcha, sitekey, actions) {
+                var recaptcha = {
+                    execute: function (action, submitFormCb) {
+                        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute !== 'function') {
+                            showRecaptchaError('reCAPTCHA script failed to load.');
+                            return;
+                        }
+
+                        try {
+                            grecaptcha.execute(sitekey, {action: action}).then((token) => {
+                                if (!token) {
+                                    throw new Error('Empty token received from reCAPTCHA');
+                                }
+
+                                var forms = document.getElementsByTagName('form');
+
+                                for (var i = 0; i < forms.length; i++) {
+                                    var response = forms[i].querySelector('[name="recaptchaResponse"]');
+
+                                    if (!response) {
+                                        response = document.createElement('input');
+                                        response.setAttribute('type', 'hidden');
+                                        response.setAttribute('name', 'recaptchaResponse');
+                                        forms[i].appendChild(response);
+                                    }
+
+                                    response.value = token;
+                                }
+
+                                submitFormCb();
+                            }).catch((e) => {
+                                showRecaptchaError(e.message);
+                            });
+                        } catch (e) {
+                            showRecaptchaError(e.message);
+                        }
+                    },
+
+                    executeContact: function (submitFormCb) {
+                        recaptcha.execute(actions['contact'], submitFormCb);
+                    }
+                };
+
+                window.recaptchaObject = recaptcha;
+                window.grecaptchaObject = grecaptcha;
+            })(
+                grecaptcha,
+                
+                '6LcrCAosAAAAAMvU0hgE1fH9VxyxUE552drDvg_2',
+                {'contact': 'contact'}
+            );
+        });
+    </script>
+
+    <script>
+    window.showRecaptchaV2 = function (form) {
+        if (!form || !form.length) {
+            return;
+        }
+        if (typeof window.grecaptchaObject === 'undefined' || !window.grecaptchaObject) {
+            return;
+        }
+
+        const formEl = form[0];
+
+        let container = document.getElementById('recaptcha-v2-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'recaptcha-v2-container';
+            formEl.parentElement.appendChild(container);
+        }
+
+        let tokenReceived = false;
+        let timeoutHandle;
+
+        if (window.recaptchaRenderedV2 === false || typeof window.recaptchaRenderedV2 === 'undefined') {
+            window.recaptchaRenderedV2 = window.grecaptchaObject.render('recaptcha-v2-container', {
+                'sitekey': window.recaptchaSiteKeyV2,
+                'size': 'invisible',
+                'callback': function (token) {
+                    clearTimeout(timeoutHandle);
+
+                    if (!token) {
+                        showRecaptchaError('reCAPTCHA v2 token was empty. Please try again.');
+                        return;
+                    }
+
+                    tokenReceived = true;
+
+                    let recaptchaResponseV2 = formEl.querySelector('input[name="recaptchaResponseV2"]');
+
+                    if (!recaptchaResponseV2) {
+                        recaptchaResponseV2 = document.createElement('input');
+                        recaptchaResponseV2.type = 'hidden';
+                        recaptchaResponseV2.name = 'recaptchaResponseV2';
+                        formEl.appendChild(recaptchaResponseV2);
+                    }
+
+                    recaptchaResponseV2.value = token;
+
+                    if (window.recaptchaSiteKeyV2) {
+                        let siteKeyInput = formEl.querySelector('input[name="siteKey"]');
+
+                        if (siteKeyInput) {
+                            siteKeyInput.value = window.recaptchaSiteKeyV2;
+                        }
+                    }
+
+                    document.querySelectorAll('.u-form-send-error').forEach(el => {
+                        el.style.display = 'none';
+                    });
+
+                    const event = new CustomEvent('submit', {
+                        detail: { recaptchaPassed: true },
+                        bubbles: true,
+                        cancelable: true,
+                    });
+
+                    formEl.dispatchEvent(event);
+                },
+                'error-callback': function () {
+                    clearTimeout(timeoutHandle);
+                    showRecaptchaError('reCAPTCHA v2 error. Please try again.');
+                },
+                'expired-callback': function () {
+                    clearTimeout(timeoutHandle);
+                }
+            });
+
+            window.grecaptchaObject.reset(window.recaptchaRenderedV2);
+
+            setTimeout(() => {
+                window.grecaptchaObject.execute(window.recaptchaRenderedV2);
+            }, 300);
+
+            timeoutHandle = setTimeout(function () {
+                if (!tokenReceived) {
+                    showRecaptchaError('The Contact Form could not be submitted because Google reCAPTCHA v3 detected unusual activity from your connection. Please try again later, or complete the reCAPTCHA v2 challenge if it appears.');
+                }
+            }, 120000);
+        } else {
+            window.grecaptchaObject.reset(window.recaptchaRenderedV2);
+
+            setTimeout(() => {
+                window.grecaptchaObject.execute(window.recaptchaRenderedV2);
+            }, 300);
+        }
+    };
+    </script>
+<meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
   <body data-home-page="Accueil.html" data-home-page-title="Accueil" data-path-to-root="./" data-include-products="false" class="u-body u-clearfix u-xl-mode" data-lang="fr"><header class="u-clearfix u-header u-header" id="header"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
         <a href="#" class="u-image u-logo u-image-1" data-image-width="3508" data-image-height="2480">
           <img src="images/logoAWblack.png" class="u-logo-image u-logo-image-1">
@@ -76,7 +281,7 @@
           </div>
         </nav>
       </div></header> 
-    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center u-image u-parallax u-uploaded-video u-video u-section-1" id="carousel_e226" src="" data-image-width="425" data-image-height="283">
+    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center-lg u-container-align-center-xl u-image u-parallax u-uploaded-video u-video u-section-1" id="carousel_e226" src="" data-image-width="425" data-image-height="283">
       <div class="u-background-video u-expanded" style="">
         <div class="embed-responsive">
           <video class="embed-responsive-item" data-autoplay="1" loop="" muted="1" autoplay="autoplay" playsinline="">
@@ -86,7 +291,7 @@
         </div>
         <div class="u-video-shading"></div>
       </div>
-      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-sheet-1">
         <h1 class="u-align-left u-custom-font u-text u-text-default u-text-white u-text-1"> Altéma</h1>
         <h1 class="u-align-left u-custom-font u-text u-text-default u-text-white u-text-2"> Weddings</h1>
         <p class="u-align-center u-large-text u-text u-text-variant u-text-white u-text-3"> Un mariage est un jour unique, laissez-moi l'immortaliser pour que vous puissiez le revivre toute une vie</p>
@@ -152,8 +357,8 @@
                       <p class="u-text u-text-7"> Le récit complet de votre journée, mêlant émotions, regards et instants précieux, une histoire intemporelle à revivre pour toujours.</p>
                     </div>
                   </div>
-                  <div class="u-align-center u-container-align-center u-container-style u-layout-cell u-size-15 u-layout-cell-6" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
-                    <div class="u-container-layout u-valign-middle u-container-layout-6">
+                  <div class="u-align-center u-container-align-center-lg u-container-align-center-md u-container-align-center-sm u-container-align-center-xl u-container-style u-layout-cell u-size-15 u-layout-cell-6" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+                    <div class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-container-layout-6">
                       <div class="u-image u-image-circle u-preserve-proportions u-image-3" data-image-width="1280" data-image-height="853"></div>
                     </div>
                   </div>
@@ -177,7 +382,7 @@
         </a>
       </div>
     </section>
-    <section class="u-align-center u-clearfix u-container-align-center u-valign-top-md u-valign-top-xl u-section-4" id="carousel_c15e" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+    <section class="u-align-center u-clearfix u-container-align-center u-valign-top-xl u-section-4" id="carousel_c15e" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
       <div class="u-container-align-center u-container-style u-expanded-width u-grey-5 u-group u-shape-rectangle u-group-1">
         <div class="u-container-layout u-container-layout-1">
           <h2 class="u-align-center u-text u-text-default u-text-1">Mes Réalisations</h2>
@@ -185,7 +390,7 @@
           </p>
           <div class="u-align-center u-expanded-width u-layout-grid u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-              <div class="u-align-left u-container-style u-image u-list-item u-repeater-item u-image-1" src="" data-image-width="1587" data-image-height="2245" data-href="https://youtu.be/MwgtmX3nBGI" title="Film de mariage" data-target="_blank">
+              <div class="u-align-left u-container-align-left u-container-style u-image u-list-item u-repeater-item u-image-1" src="" data-image-width="1587" data-image-height="2245" data-href="https://youtu.be/MwgtmX3nBGI" title="Film de mariage" data-target="_blank">
                 <div class="u-container-layout u-similar-container u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-2"></div>
               </div>
               <div class="u-align-left u-container-align-left u-container-style u-image u-list-item u-repeater-item u-image-2" src="" data-image-width="1587" data-image-height="2245">
@@ -200,7 +405,7 @@
       </div>
     </section>
     <section class="u-clearfix u-container-align-center u-grey-5 u-section-5" id="sec-b0ff">
-      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-sheet-1">
         <h2 class="u-align-center u-text u-text-1">Des mariés satisfaits<br><span style="font-size: 1.25rem; font-style: italic;">(avis vérifiés Google) </span>
         </h2>
         <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
@@ -347,14 +552,14 @@ Chaque création est unique, à votre image, car votre histoire ne ressemble à 
       </div>
     </section>
     <section class="u-align-center u-clearfix u-container-align-center u-section-8" id="sec-52f7">
-      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <div class="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
           <div class="u-layout">
             <div class="u-layout-row">
-              <div class="u-align-center u-container-align-center u-container-style u-layout-cell u-left-cell u-size-26-lg u-size-26-xl u-size-60-md u-size-60-sm u-size-60-xs u-layout-cell-1">
-                <div class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-1">
+              <div class="u-align-center u-container-align-center-lg u-container-align-center-xl u-container-style u-layout-cell u-left-cell u-size-26-lg u-size-26-xl u-size-60-md u-size-60-sm u-size-60-xs u-layout-cell-1">
+                <div class="u-container-layout u-valign-middle-lg u-valign-middle-sm u-valign-middle-xs u-container-layout-1">
                   <h2 class="u-align-center u-text u-text-default u-text-1">Me contacter</h2>
-                  <div class="u-align-left u-expanded-width u-form u-form-1">
+                  <div class="custom-expanded u-align-left u-form u-form-1">
                     <form action="https://service.nicepagesrv.com/form/v4/form-process" class="u-clearfix u-form-spacing-28 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form">
                       <div class="u-form-group u-form-name">
                         <label for="name-5a14" class="u-form-control-hidden u-label">Name</label>
@@ -368,14 +573,15 @@ Chaque création est unique, à votre image, car votre histoire ne ressemble à 
                         <label for="message-5a14" class="u-form-control-hidden u-label">Message</label>
                         <textarea placeholder="Détaillez votre demande d'information ou de réservation" rows="4" cols="50" id="message-5a14" name="message" class="u-border-2 u-border-black u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle" required=""></textarea>
                       </div>
-                      <div class="u-align-left u-form-group u-form-submit">
+                      <div class="u-align-center-md u-align-center-sm u-align-center-xs u-align-left-lg u-align-left-xl u-form-group u-form-submit">
                         <a href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-grey-15 u-hover-black u-radius u-text-black u-text-hover-white u-btn-1">Envoyer</a>
                         <input type="submit" value="submit" class="u-form-control-hidden">
                       </div>
                       <div class="u-form-send-message u-form-send-success">Merci ! Votre message a été envoyé.</div>
                       <div class="u-form-send-error u-form-send-message">Impossible d'envoyer votre message. Merci de corriger les erreurs et réessayer.</div>
                       <input type="hidden" value="" name="recaptchaResponse">
-                      <input type="hidden" name="formServices" value="2ece269e-1817-d14b-2ad2-4d2f79072423">
+                      <input type="hidden" name="formServices" value="e39c39fd-4c25-0d6d-6b92-435ea2d84071">
+                      <input type="hidden" name="siteKey" value="6LcrCAosAAAAAMvU0hgE1fH9VxyxUE552drDvg_2">
                     </form>
                   </div>
                 </div>
@@ -391,7 +597,7 @@ Chaque création est unique, à votre image, car votre histoire ne ressemble à 
     
     
     
-    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="footer"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+    <footer class="u-align-center u-clearfix u-container-align-center-lg u-container-align-center-xl u-footer u-grey-80 u-footer" id="footer"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-sheet-1">
         <h5 class="u-align-left u-text u-text-1"> Tél : 06 20 29 11 94<br>
           <br>Mail : contact@altéma-studio.fr<br>
           <br>Bordeaux, France
@@ -411,5 +617,7 @@ Chaque création est unique, à votre image, car votre histoire ne ressemble à 
         </div>
         <p class="u-align-right u-small-text u-text u-text-variant u-text-3">Altéma Weddings - Tout droits réservés - 2025</p>
       </div></footer>
+    <section class="u-backlink u-clearfix u-grey-80"> This website was created with <a href="https://nicepage.com">Nicepage</a>
+    </section>
   
 </body></html>

@@ -46149,6 +46149,7 @@ a.u-link.u-text-hover-color-var:hover {
   font-weight: 700;
   font-size: 1rem;
   text-transform: uppercase;
+  letter-spacing: normal;
 }
 
 .u-header .u-nav-2 {
@@ -46164,10 +46165,6 @@ a.u-link.u-text-hover-color-var:hover {
   .u-header .u-menu-1 {
     width: auto;
     margin-top: -50px;
-  }
-
-  .u-header .u-nav-1 {
-    letter-spacing: normal;
   }
 }
 
@@ -46246,20 +46243,30 @@ a.u-link.u-text-hover-color-var:hover {
   }
 }
 @media (max-width: 991px) {
+  .u-footer .u-sheet-1 {
+    min-height: 282px;
+  }
+
   .u-footer .u-text-1 {
-    margin-top: 928px;
+    width: auto;
+    margin-top: 118px;
     margin-right: 296px;
   }
 
   .u-footer .u-image-1 {
-    margin-left: 257px;
+    margin-top: -163px;
+    margin-right: 161px;
+    margin-left: auto;
   }
 
   .u-footer .u-text-2 {
-    margin-top: -142px;
+    width: auto;
+    margin-top: -122px;
+    margin-right: 611px;
   }
 
   .u-footer .u-social-icons-1 {
+    margin-top: 7px;
     margin-left: 642px;
   }
 
@@ -46269,38 +46276,59 @@ a.u-link.u-text-hover-color-var:hover {
 }
 @media (max-width: 767px) {
   .u-footer .u-text-1 {
+    margin-top: 928px;
     margin-right: 116px;
   }
 
   .u-footer .u-image-1 {
-    margin-left: 193px;
+    margin-top: -163px;
+    margin-right: 161px;
+  }
+
+  .u-footer .u-text-2 {
+    margin-top: -142px;
+    margin-right: 431px;
   }
 
   .u-footer .u-social-icons-1 {
+    margin-top: -46px;
     margin-left: 462px;
   }
 
   .u-footer .u-text-3 {
-    margin-bottom: 51px;
     margin-left: 123px;
   }
 }
 @media (max-width: 575px) {
+  .u-footer .u-sheet-1 {
+    min-height: 291px;
+  }
+
   .u-footer .u-text-1 {
+    margin-top: 143px;
     margin-right: 0;
   }
 
   .u-footer .u-image-1 {
-    margin-left: 122px;
+    margin-top: -211px;
+    margin-right: -38px;
+  }
+
+  .u-footer .u-text-2 {
+    margin-top: -74px;
+    margin-right: 231px;
   }
 
   .u-footer .u-social-icons-1 {
-    margin-left: 262px;
+    margin-top: -90px;
+    margin-left: 16px;
   }
 
   .u-footer .u-text-3 {
+    width: auto;
+    margin-top: 162px;
     margin-left: 0;
-    margin-bottom: 51px;
+    margin-bottom: 37px;
   }
 }
 
